@@ -3,30 +3,47 @@
 
 dht11 DHT11;
 
+int pos = 0;
+bool valveOpened = false;
+
 // 250  100%
 // 1050 0%  
 
 void setup()
 {
   Serial.begin(9600);
-  
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
 }
 
 void loop()
 {
   int chk = DHT11.read(DHT11PIN);
   int moist = analogRead(A5);
-  float moistPercent = basedMap(moist, 1050, 250, 0, 1);
+  float moistPercent = basedMap(moist, 1100, 250, 0, 100);
 
-  Serial.print(yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\ ty, 2);
+  Serial.print("H");
+  Serial.println(DHT11.humidity);
 
   Serial.print("T");
-  Serial.println((float)DHT11.temperature, 2);
+  Serial.println(DHT11.temperature);
 
   Serial.print("S");
-  Serial.println(moistPercent);
+  Serial.println((int)moistPercent);
 
-  delay(2000);
+
+//  if (moistPercent > 0.05) {
+//    analogWrite(8, 255);
+//    Serial.println("WATER");
+//  } else {
+//    analogWrite(8, 0);    
+//    Serial.println("NONE");
+//  }
+
+  digitalWrite(9, HIGH);
+  digitalWrite(8, LOW);
+  
+  delay(1000);
   
 }
 
